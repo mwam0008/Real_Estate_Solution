@@ -1,4 +1,4 @@
-# 🏠 Real Estate Price Prediction
+# Real Estate Price Prediction
 
 A Streamlit web app that predicts house prices using **Linear Regression** and **Random Forest** models.
 
@@ -36,7 +36,7 @@ real_estate_app/
 | Model | Train MAE | Notes |
 |---|---|---|
 | Linear Regression | Higher | Simple baseline |
-| Random Forest | Lower ✅ | Better, saved as RE_Model.pkl |
+| Random Forest | Lower | Better, saved as RE_Model.pkl |
 
 **Target:** MAE below $70,000
 
@@ -51,8 +51,3 @@ real_estate_app/
 ## Dataset Features
 
 `year_sold`, `property_tax`, `insurance`, `beds`, `baths`, `sqft`, `year_built`, `lot_size`, `basement`, `popular`, `recession`, `property_age`, `property_type_Condo`
-
-## Course
-
-CST2216 — Machine Learning 2: Advanced Models and Emerging Topics
-Algonquin College
