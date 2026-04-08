@@ -100,7 +100,7 @@ def plot_feature_importance(model, columns):
         ax.set_yticks(range(len(indices)))
         ax.set_yticklabels([columns[i] for i in indices])
         ax.set_xlabel('Importance Score')
-        ax.set_title('Random Forest — Feature Importance', fontweight='bold')
+        ax.set_title('Random Forest - Feature Importance', fontweight='bold')
         plt.tight_layout()
         return fig
     except Exception as e:
