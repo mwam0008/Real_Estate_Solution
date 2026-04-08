@@ -33,11 +33,10 @@ from utils import (
 # ── Page Config ───────────────────────────────────────────────
 st.set_page_config(
     page_title="Real Estate Price Predictor",
-    page_icon="🏠",
     layout="wide"
 )
 
-st.title("🏠 Real Estate Price Prediction")
+st.title("Real Estate Price Prediction")
 st.markdown("Predict house prices using **Linear Regression** and **Random Forest** models.")
 
 # ── Load Data ─────────────────────────────────────────────────
@@ -50,22 +49,22 @@ def get_data():
 try:
     df = get_data()
 except Exception as e:
-    st.error(f"❌ Could not load final.csv. Make sure it's in the same folder.\nError: {e}")
+    st.error(f"Could not load final.csv. Make sure it's in the same folder.\nError: {e}")
     st.stop()
 
 # ── Sidebar ───────────────────────────────────────────────────
-st.sidebar.title("📂 Navigation")
+st.sidebar.title("Navigation")
 section = st.sidebar.radio("Choose a section:", [
-    "📊 Data Overview",
-    "🤖 Train & Compare Models",
-    "🔮 Predict House Price",
+    "Data Overview",
+    "Train & Compare Models",
+    "Predict House Price",
 ])
 
 # ════════════════════════════════════════════════════════════
-# SECTION 1 — Data Overview
+# SECTION 1 - Data Overview
 # ════════════════════════════════════════════════════════════
-if section == "📊 Data Overview":
-    st.header("📊 Data Overview")
+if section == "Data Overview":
+    st.header("Data Overview")
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Properties", df.shape[0])
@@ -76,7 +75,7 @@ if section == "📊 Data Overview":
     st.subheader("Sample Data")
     st.dataframe(df.head(10))
 
-    st.subheader("📈 Price Distribution")
+    st.subheader("Price Distribution")
     fig = plot_price_distribution(df)
     st.pyplot(fig)
 
@@ -84,29 +83,29 @@ if section == "📊 Data Overview":
     fig2 = plot_price_by_beds(df)
     st.pyplot(fig2)
 
-    st.subheader("🔥 Feature Correlation Heatmap")
+    st.subheader("Feature Correlation Heatmap")
     st.markdown("Shows how strongly each feature relates to price. Brighter red = stronger positive relationship.")
     fig3 = plot_correlation_heatmap(df)
     st.pyplot(fig3)
 
-    st.subheader("📋 Dataset Statistics")
+    st.subheader("Dataset Statistics")
     st.dataframe(df.describe().round(2))
 
 # ════════════════════════════════════════════════════════════
-# SECTION 2 — Train & Compare Models
+# SECTION 2 - Train & Compare Models
 # ════════════════════════════════════════════════════════════
-elif section == "🤖 Train & Compare Models":
-    st.header("🤖 Train & Compare Models")
+elif section == "Train & Compare Models":
+    st.header("Train & Compare Models")
     st.markdown("""
     Train both models on the real estate data and compare their performance.
     The goal is to get **MAE below $70,000**.
     """)
 
-    st.sidebar.subheader("⚙️ Settings")
+    st.sidebar.subheader("Settings")
     test_size = st.sidebar.slider("Test Set Size", 0.1, 0.4, 0.2, step=0.05)
     n_estimators = st.sidebar.slider("Random Forest Trees", 50, 500, 200, step=50)
 
-    if st.button("🚀 Train Both Models"):
+    if st.button("Train Both Models"):
         with st.spinner("Training Linear Regression and Random Forest... ⏳"):
             try:
                 x_train, x_test, y_train, y_test = split_data(df, test_size=test_size)
@@ -126,31 +125,31 @@ elif section == "🤖 Train & Compare Models":
                 st.session_state['model_trained'] = True
                 st.session_state['columns'] = list(x_train.columns)
 
-                st.success("✅ Both models trained! Random Forest saved as RE_Model.pkl")
+                st.success("Both models trained! Random Forest saved as RE_Model.pkl")
 
                 # Metrics
-                st.subheader("📊 Model Performance")
+                st.subheader("Model Performance")
                 col1, col2 = st.columns(2)
 
                 with col1:
                     st.markdown("**Linear Regression**")
                     st.metric("Train MAE", f"${lr_train_mae:,.0f}")
                     st.metric("Test MAE", f"${lr_test_mae:,.0f}",
-                              delta=f"{'✅ Under target' if lr_test_mae < 70000 else '❌ Over $70k target'}")
+                              delta=f"{'Under target' if lr_test_mae < 70000 else 'Over $70k target'}")
 
                 with col2:
                     st.markdown("**Random Forest**")
                     st.metric("Train MAE", f"${rf_train_mae:,.0f}")
                     st.metric("Test MAE", f"${rf_test_mae:,.0f}",
-                              delta=f"{'✅ Under target' if rf_test_mae < 70000 else '❌ Over $70k target'}")
+                              delta=f"{'Under target' if rf_test_mae < 70000 else 'Over $70k target'}")
 
                 # MAE comparison chart
-                st.subheader("📊 MAE Comparison")
+                st.subheader("MAE Comparison")
                 fig = plot_mae_comparison(lr_test_mae, rf_test_mae)
                 st.pyplot(fig)
 
                 # Actual vs Predicted
-                st.subheader("🎯 Actual vs Predicted Prices")
+                st.subheader("Actual vs Predicted Prices")
                 col1, col2 = st.columns(2)
                 with col1:
                     fig2 = plot_actual_vs_predicted(y_test, lr_test_pred, "Linear Regression")
@@ -160,23 +159,23 @@ elif section == "🤖 Train & Compare Models":
                     st.pyplot(fig3)
 
                 # Feature importance
-                st.subheader("🌲 Random Forest Feature Importance")
+                st.subheader("Random Forest Feature Importance")
                 st.markdown("Which features matter most for predicting price?")
                 fig4 = plot_feature_importance(rfmodel, list(x_train.columns))
                 st.pyplot(fig4)
 
                 # Winner
                 winner = "Random Forest" if rf_test_mae < lr_test_mae else "Linear Regression"
-                st.info(f"🏆 **{winner}** performs better with lower Test MAE!")
+                st.info(f"**{winner}** performs better with lower Test MAE!")
 
             except Exception as e:
-                st.error(f"❌ Training failed: {e}")
+                st.error(f"Training failed: {e}")
 
 # ════════════════════════════════════════════════════════════
-# SECTION 3 — Predict House Price
+# SECTION 3 - Predict House Price
 # ════════════════════════════════════════════════════════════
-elif section == "🔮 Predict House Price":
-    st.header("🔮 Predict a House Price")
+elif section == "Predict House Price":
+    st.header("Predict a House Price")
     st.markdown("Fill in the property details and get a predicted price.")
 
     # Try loading saved model
@@ -189,9 +188,9 @@ elif section == "🔮 Predict House Price":
         model_available = False
 
     if not model_available:
-        st.warning("⚠️ No trained model found. Please go to **Train & Compare Models** first!")
+        st.warning("No trained model found. Please go to **Train & Compare Models** first!")
     else:
-        st.success("✅ Random Forest model loaded!")
+        st.success("Random Forest model loaded!")
 
         col1, col2 = st.columns(2)
 
@@ -234,7 +233,7 @@ elif section == "🔮 Predict House Price":
 
                 prediction = predict_price(model, input_dict, columns)
 
-                st.success(f"### 🏠 Predicted Price: **${prediction:,.0f}**")
+                st.success(f"### Predicted Price: **${prediction:,.0f}**")
 
                 # Context
                 avg = df['price'].mean()
@@ -243,7 +242,7 @@ elif section == "🔮 Predict House Price":
                 st.caption(f"This is ${abs(diff):,.0f} {direction} the dataset average of ${avg:,.0f}")
 
                 # Show input summary
-                with st.expander("📋 Your Input Summary"):
+                with st.expander("Your Input Summary"):
                     st.dataframe(pd.DataFrame([input_dict]).T.rename(columns={0: 'Value'}))
 
             except Exception as e:
@@ -251,5 +250,5 @@ elif section == "🔮 Predict House Price":
 
 # ── Footer ────────────────────────────────────────────────────
 st.sidebar.markdown("---")
-st.sidebar.markdown("**CST2216 — Individual Term Project**")
+st.sidebar.markdown("**Project**")
 st.sidebar.markdown("Real Estate Price Prediction")
