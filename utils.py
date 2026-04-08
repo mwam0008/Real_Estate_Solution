@@ -56,7 +56,7 @@ def plot_actual_vs_predicted(y_test, test_pred, model_name: str):
         ax.plot([min_val, max_val], [min_val, max_val], 'r--', label='Perfect Prediction')
         ax.set_xlabel('Actual Price ($)')
         ax.set_ylabel('Predicted Price ($)')
-        ax.set_title(f'{model_name} — Actual vs Predicted', fontweight='bold')
+        ax.set_title(f'{model_name} - Actual vs Predicted', fontweight='bold')
         ax.legend()
         plt.tight_layout()
         return fig
@@ -80,7 +80,7 @@ def plot_mae_comparison(lr_mae: float, rf_mae: float):
 
         ax.axhline(70000, color='red', linestyle='--', label='Target MAE ($70,000)')
         ax.set_ylabel('Mean Absolute Error (USD)')
-        ax.set_title('Model Comparison — MAE', fontweight='bold')
+        ax.set_title('Model Comparison - MAE', fontweight='bold')
         ax.legend()
         plt.tight_layout()
         return fig
