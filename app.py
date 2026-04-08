@@ -79,7 +79,7 @@ if section == "Data Overview":
     fig = plot_price_distribution(df)
     st.pyplot(fig)
 
-    st.subheader("🛏️ Price by Bedrooms")
+    st.subheader("Price by Bedrooms")
     fig2 = plot_price_by_beds(df)
     st.pyplot(fig2)
 
@@ -106,7 +106,7 @@ elif section == "Train & Compare Models":
     n_estimators = st.sidebar.slider("Random Forest Trees", 50, 500, 200, step=50)
 
     if st.button("Train Both Models"):
-        with st.spinner("Training Linear Regression and Random Forest... ⏳"):
+        with st.spinner("Training Linear Regression and Random Forest..."):
             try:
                 x_train, x_test, y_train, y_test = split_data(df, test_size=test_size)
 
@@ -213,7 +213,7 @@ elif section == "Predict House Price":
             prop_type    = st.selectbox("Property Type", [0, 1],
                                         format_func=lambda x: "Condo" if x else "House")
 
-        if st.button("🔮 Predict Price"):
+        if st.button("Predict Price"):
             try:
                 input_dict = {
                     'year_sold': year_sold,
@@ -246,7 +246,7 @@ elif section == "Predict House Price":
                     st.dataframe(pd.DataFrame([input_dict]).T.rename(columns={0: 'Value'}))
 
             except Exception as e:
-                st.error(f"❌ Prediction failed: {e}")
+                st.error(f"Prediction failed: {e}")
 
 # ── Footer ────────────────────────────────────────────────────
 st.sidebar.markdown("---")
